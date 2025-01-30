@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "common.apps.CommonConfig",
     "tweets.apps.TweetsConfig",
     "users.apps.UsersConfig",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [
