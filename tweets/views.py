@@ -6,11 +6,14 @@ from rest_framework.response import Response
 from rest_framework.exceptions import NotFound, NotAuthenticated, PermissionDenied
 from rest_framework.views import APIView
 from rest_framework.status import HTTP_200_OK
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from .serializer import TweetSerializer, TweetDetailSerializer
 from .models import Tweet
 
 
 class Tweets(APIView):
+
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get(self, request):
         all_tweets = Tweet.objects.all()
@@ -30,6 +33,8 @@ class Tweets(APIView):
 
 
 class TweetDetail(APIView):
+
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_object(self, tweet_id):
         try:
