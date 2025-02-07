@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound, NotAuthenticated, PermissionDenied
 from rest_framework.views import APIView
-from rest_framework.status import HTTP_200_OK
+from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from .serializer import TweetSerializer, TweetDetailSerializer
 from .models import Tweet
@@ -27,7 +27,7 @@ class Tweets(APIView):
                 new_tweet = serializer.save(user=request.user)
                 return Response(TweetDetailSerializer(new_tweet).data)
             else:
-                return Response(serializer.errors)
+                return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
         else:
             raise NotAuthenticated
 
@@ -64,7 +64,7 @@ class TweetDetail(APIView):
             updated_tweet = serializer.save()
             return Response(TweetDetailSerializer(updated_tweet).data)
         else:
-            return Response(serializer.errors)
+            return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
     def delete(self, request, tweet_id):
         tweet = self.get_object(tweet_id)
